@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import { View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { TouchableOpacity, View } from 'react-native';
+import { Button } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomText from '../../components/custom-text';
 import CustomTextInput from '../../components/inputs/text-input';
@@ -43,7 +43,11 @@ export default function ListScreen() {
                 {formatDate(date)}
               </CustomText>
               {leafs.map((leaf, index) => (
-                <DiagnosisComponent leaf={leaf} key={index} />
+                <TouchableOpacity
+                  key={`${date}-${index}`}
+                  onPress={() => navigation.navigate('leaf', { leaf })}>
+                  <DiagnosisComponent leaf={leaf} key={index} />
+                </TouchableOpacity>
               ))}
             </View>
           ))}

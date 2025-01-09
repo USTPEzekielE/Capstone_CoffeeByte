@@ -75,19 +75,23 @@ export function LeafProvider({ children }: { children: React.ReactNode }) {
   }, [getLeafsFromCloud]);
 
   const addLeaf = async (leaf: LeafList): Promise<void> => {
-    await database.createDocument(
-      process.env.APPWRITE_DATABASE!,
-      process.env.SCAN_IMAGES_COLLECTION!,
-      ID.unique(),
-      leaf,
-    );
+    try {
+      await database.createDocument(
+        process.env.APPWRITE_DATABASE!,
+        process.env.SCAN_IMAGES_COLLECTION!,
+        ID.unique(),
+        leaf,
+      );
 
-    const newLeaf: LeafList = {
-      ...leaf,
-      createdAt: new Date().toISOString(),
-    };
+      const newLeaf: LeafList = {
+        ...leaf,
+        createdAt: new Date().toISOString(),
+      };
 
-    setLeaves(prev => [...prev, newLeaf]);
+      setLeaves(prev => [...prev, newLeaf]);
+    } catch (error) {
+      throw error;
+    }
   };
 
   const removeLeaf = async (index: number) => {

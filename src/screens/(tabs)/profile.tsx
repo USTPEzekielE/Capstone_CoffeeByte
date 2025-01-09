@@ -15,8 +15,12 @@ import { ID } from 'react-native-appwrite';
 export default function ProfileScreen() {
   const [comment, setComment] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [showThankyouModal, setShowThankyouModal] = useState(false);
   const context = useContext(AuthContext);
   const isDark = useColorScheme().colorScheme === 'dark' ? true : false;
+
+
+
 
   const dialogAction = async () => {
     await database.createDocument(
@@ -25,12 +29,12 @@ export default function ProfileScreen() {
       ID.unique(),
       {
         feedbacktext: comment,
-        response: '',
         user: context.user?.id,
       },
     );
     setShowModal(!showModal);
     setComment('');
+    setShowThankyouModal(true)
   };
 
   return (
@@ -122,6 +126,38 @@ export default function ProfileScreen() {
                 onPress={dialogAction}
                 style={{ width: '50%', alignSelf: 'center' }}>
                 Submit Feedback
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+
+        <Portal>
+          <Dialog
+            visible={showThankyouModal}
+            dismissable={true}
+            style={{
+              backgroundColor: isDark ? '#1A202C' : '#F2F1EC',
+            }}>
+            <Dialog.Title
+              style={{
+                textAlign: 'center',
+                color: isDark ? '#81c7a7' : '#3E735B',
+              }}>
+              Feedback Complete!
+            </Dialog.Title>
+            <Dialog.Content>
+              <CustomText className="dark:text-[#81c7a7] text-[#3E735B] text-center">
+                Thank you for sharing your feedback, may God bless you and your family!
+              </CustomText>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                mode="contained"
+                buttonColor="#3E735B"
+                textColor="#FFF"
+                onPress={() => setShowThankyouModal(false)}
+                style={{ width: '50%', alignSelf: 'center' }}>
+                Close
               </Button>
             </Dialog.Actions>
           </Dialog>

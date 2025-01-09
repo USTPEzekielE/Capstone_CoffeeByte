@@ -3,7 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthScreens from './screens/(auth)/auth-screens';
 import TabLayout from './screens/(tabs)/tabs-layout.tsx';
 import { AuthContext } from './providers/auth-provider.tsx';
-import ListsScreen from './screens/list-screen.tsx';
+import LeafDetails from './screens/(tabs)/leaf-details.tsx';
+import ListsScreen from './screens/(tabs)/list-screen.tsx';
 
 export default function MainApp() {
   const Stack = createNativeStackNavigator();
@@ -17,6 +18,7 @@ export default function MainApp() {
         <>
           <Stack.Screen name="tabs" component={TabLayout} />
           <Stack.Screen name="lists" component={ListsScreen} />
+          <Stack.Screen name="leaf" component={LeafDetails} />
         </>
       ) : (
         <Stack.Screen name="auth" component={AuthScreens} />
